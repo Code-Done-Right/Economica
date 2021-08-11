@@ -26,4 +26,4 @@ async def invite(ctx):
 
 
 # SETUP #
-coinbot.run('ODE1NTU2MzQxNzY2NTUzNjAw.YDuICA.o-5yg8tn3XZrTmeupVDZ9nkr0DQ')
+coinbot.run(TOKEN)
