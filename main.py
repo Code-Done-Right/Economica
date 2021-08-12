@@ -22,6 +22,27 @@ async def invite(ctx):
 
 	await ctx.send(embed = embed)
 
+@coinbot.command()
+async def credits(ctx):
+	embed = discord.Embed(
+		title = 'Credits',
+		description = 'My forever gratitude to everyone who helped me be alive!\n My main creator is **Science Done Right#6969** (Please don\'t spam DM him!). Huge thanks to him for creating me!',
+		color = NORMAL
+		)
+
+	await ctx.send(embed = embed)
+
+# MODERATION COMMANDS #
+
+@coinbot.command()
+@commands.has_permissions(kick_members = True)
+async def kick(ctx, member : discord.Member, * , reason = "No reason mentioned."):
+	await member.kick(reason = reason)
+
+@coinbot.command()
+@commands.has_permissions(ban_members = True)
+async def ban(ctx, member : discord.Member, * , reason = "No reason mentioned."):
+	await member.ban(reason = reason)
 
 # SETUP #
-coinbot.run(TOKEN)
+coinbot.run('ODE1NTU2MzQxNzY2NTUzNjAw.YDuICA.__1iQq8IDlj4SUiiU9VJYA2Li5E')
