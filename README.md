@@ -7,7 +7,7 @@ A bot dashboard will be made when the bot gets some serious attention.
 
 ## Prefix
 
-The default prefix is `coin ` (with a space at the end.) Users can also use `coin.` as a valid prefix.
+The default prefix is `coin `  (with a space at the end.) Users can also use `coin.` as a valid prefix.
 
 In the future per-server prefixes will be added.
 
