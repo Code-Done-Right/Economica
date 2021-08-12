@@ -45,4 +45,4 @@ async def ban(ctx, member : discord.Member, * , reason = "No reason mentioned.")
 	await member.ban(reason = reason)
 
 # SETUP #
-coinbot.run('ODE1NTU2MzQxNzY2NTUzNjAw.YDuICA.__1iQq8IDlj4SUiiU9VJYA2Li5E')
+coinbot.run(TOKEN)
