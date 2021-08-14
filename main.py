@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord_components import *
 
 # BOT USER INFO #
 coinbot = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -11,16 +12,42 @@ SUCCESSFUL = 0x29CC00
 ERROR = 0x961515
 
 # GENERAL COMMANDS #
+@coinbot.event
+async def on_ready():
+	DiscordComponents(coinbot)
+	print(f'Logged in as {coinbot.user}, no malfunctions so for.')
+
+@coinbot.command()
+async def button(ctx):
+	button = await ctx.send(
+			"Hey there this thing works wow",
+			components = [
+				Button(style = 1,label = 'Click me or die')
+			]
+		)
+
+	interaction = await coinbot.wait_for('button_click', check = lambda i: i.component.label.startswith("WOW"))
+	await interaction.respond(content = f"{interaction.component[0].label} selected!")
+
 @coinbot.command()
 async def invite(ctx):
 	embed = discord.Embed(
 		title = 'Invite',
-		description = f'Thanks for inviting the bot! \n [Click me to invite the bot!]({INVITE_URL})',
+		description = f'Thanks for inviting the bot! \n To invite {coinbot.user.name}, just click the button, choose the server and the bot wil automatically get invited!',
 		color = NORMAL
 		)
 	embed.set_thumbnail(url = 'https://media.istockphoto.com/vectors/thank-you-vector-id1183202104?s=612x612')
 
-	await ctx.send(embed = embed)
+	button = await ctx.send(
+			embed = embed,
+			components = [
+				Button(style = 1, label = 'Info'),
+				Button(style = 5, label = 'Click to invite me!', url = f'{INVITE_URL}')
+			]
+		)
+
+	interaction = await coinbot.wait_for('button_click', check = lambda i: i.component.label.startswith("Click"))
+	await interaction.respond(content = f"You have clicked {interaction.component[1].label}, therefore succesfully invitng the bot.")
 
 @coinbot.command()
 async def credits(ctx):
