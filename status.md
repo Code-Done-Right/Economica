@@ -6,4 +6,4 @@ The head bot developer, Science Done Right, is going to spend a couple days brai
 
 We have some issues about the button interaction, specifically the blue "Primary call-to-action" buttons.
 
-![An image showing the Primary button.](/Screenshots/2021-08-15.png)
+![An image showing the Primary button.](https://www.terabox.com/disk/home#/all?vmode=list&path=%2F)
