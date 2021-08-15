@@ -41,7 +41,7 @@ async def invite(ctx):
 	button = await ctx.send(
 			embed = embed,
 			components = [
-				Button(style = 1, label = 'Info'),
+				Button(style = 1, label = 'Info', disabled = True),
 				Button(style = 5, label = 'Click to invite me!', url = f'{INVITE_URL}')
 			]
 		)
