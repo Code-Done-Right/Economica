@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-from discord_components import *
+from discord_components import DiscordComponents, Button
+from discord_slash import SlashCommand
 
 # BOT USER INFO #
 coinbot = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -41,7 +42,7 @@ async def invite(ctx):
 	button = await ctx.send(
 			embed = embed,
 			components = [
-				Button(style = 1, label = 'Info', disabled = True),
+				Button(style = 1, label = 'Info'),
 				Button(style = 5, label = 'Click to invite me!', url = f'{INVITE_URL}')
 			]
 		)
