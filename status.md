@@ -8,7 +8,7 @@ The head bot developer, Science Done Right, is going to spend a couple days brai
 
 We have some issues about the button interaction, specifically the blue "Primary call-to-action" buttons.
 
-![An image showing the Primary button.](Button.png)
+![An image showing the Primary button.](images/Button.png)
 
 The `discord_components` module currently does not support it's way of sending private messages to the user using the command.
 
