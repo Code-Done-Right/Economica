@@ -1,7 +1,7 @@
 # ❓ About
 
-Coin Bot is an **Economy Bot** made by *Science Done Right*. Coin Bot includes the regular banking features like withdrawing and depositing cash. Robbing, and more.
-Coin Bot also includes a LOT of customisation for most features.
+Economica is an **Economy Bot** made by *Science Done Right*. Economica includes the regular banking features like withdrawing and depositing cash. Robbing, and more.
+Economica also includes a LOT of customisation for most features.
 
 A bot dashboard will be made when the bot gets some serious attention.
 
