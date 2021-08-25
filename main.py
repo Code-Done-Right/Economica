@@ -1,7 +1,14 @@
+# IMPORTANT IMPORTS #
 import discord
 from discord.ext import commands
 from discord_components import DiscordComponents, Button
 from discord_slash import SlashCommand
+
+# IMPORTS #
+
+# from commands_general import (stuff)
+# from comamnds_economy import Account, Money
+# from commands_moderation import (stuff)
 
 # CONFIGURATION #
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -11,14 +18,17 @@ INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=81555634176655
 NORMAL = 0x006AFF
 SUCCESSFUL = 0x29CC00
 ERROR = 0x961515
+IN_PROGRESS = 0xD6A400
 
 # GENERAL COMMANDS #
 @economica.event
 async def on_ready():
-	DiscordComponents(coinbot)
-	print(f'Logged in as {coinbot.user.name}, no malfunctions so for.')
+	DiscordComponents(economica)
+	print(f'Logged in as {economica.user.name}, no malfunctions so for.')
+	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
 
 @economica.command()
+@commands.has_permissions(administrator = True)
 async def button(ctx):
 	button = await ctx.send(
 			"Hey there this thing works wow",
@@ -27,14 +37,14 @@ async def button(ctx):
 			]
 		)
 
-	interaction = await coinbot.wait_for('button_click', check = lambda i: i.component.label.startswith("WOW"))
+	interaction = await economica.wait_for('button_click', check = lambda i: i.component.label.startswith("WOW"))
 	await interaction.respond(content = f"{interaction.component[0].label} selected!")
 
 @economica.command()
 async def invite(ctx):
 	embed = discord.Embed(
 		title = 'Invite',
-		description = f'Thanks for inviting the bot! \n To invite {coinbot.user.name}, just click the button, choose the server and the bot wil automatically get invited!',
+		description = f'Thanks for inviting the bot! \n To invite {economica.user.name}, just click the button, choose the server and the bot wil automatically get invited!',
 		color = NORMAL
 		)
 	embed.set_thumbnail(url = 'https://media.istockphoto.com/vectors/thank-you-vector-id1183202104?s=612x612')
@@ -47,7 +57,7 @@ async def invite(ctx):
 			]
 		)
 
-	interaction = await coinbot.wait_for('button_click', check = lambda i: i.component.label.startswith("Click"))
+	interaction = await economica.wait_for('button_click', check = lambda i: i.component.label.startswith("Click"))
 	await interaction.respond(content = f"You have clicked {interaction.component[1].label}, therefore succesfully invitng the bot.")
 
 @economica.command()
@@ -71,6 +81,10 @@ async def kick(ctx, member : discord.Member, * , reason = "No reason mentioned."
 @commands.has_permissions(ban_members = True)
 async def ban(ctx, member : discord.Member, * , reason = "No reason mentioned."):
 	await member.ban(reason = reason)
+
+# ECONOMY COMMANDS #
+
+def open_account():
 
 # SETUP #
 economica.run(TOKEN)

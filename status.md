@@ -1,8 +1,6 @@
 # 📑 Preface
 
-The head bot developer, Science Done Right, is going to spend a couple days brainstorming all the commands, their functionality, how to make them work as they do, et cetera. Currently, Science Done Right (whom we'll abbreviate as SDR), is learning about discord buttons using a unofficial third party module called **discord_components.** Huge thanks to *Developer kiki7000* (@devkiki7000) for making the module.
-
-[Discord Components Documentaion](https://gitlab.com/discord.py-components/discord.py-components)
+I found a good solution to all the issues, expect for the fact that I moved out of my previous home into a new one so I'm gonna have some issues commiting all changes for a few days. Obviously, when you read this, I already have internet but I just wanted to remind you guys, that I have things to do in everyday life.
 
 # ❗ Issues
 
