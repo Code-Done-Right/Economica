@@ -19,4 +19,4 @@ We currently have *no deadlines or expectations* for the bot to become popular. 
 Anyways, the bot will take a lot of time and love to be made into a really fun economy bot.
 
 If you want to join the support server, please click on the image below!
-![images/Economica_Server](https://discord.gg/HxkmbdgcEM)
+[images/Economica_Server](https://discord.gg/HxkmbdgcEM)
