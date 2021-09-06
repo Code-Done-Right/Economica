@@ -7,6 +7,7 @@ from discord_slash import SlashCommand
 # CONFIGURATION #
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
+from bot_token import TOKEN
 
 # COMMAND COLORS #
 NORMAL = 0x006AFF
@@ -17,7 +18,7 @@ IN_PROGRESS = 0xD6A400
 # GENERAL COMMANDS #
 @economica.event
 async def on_ready():
-	# ❗ DiscordComponents(economica)
+	DiscordComponents(economica)
 	print(f'Logged in as {economica.user.name}, no malfunctions so for.')
 	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
 
