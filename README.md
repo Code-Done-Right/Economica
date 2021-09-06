@@ -21,3 +21,8 @@ Anyways, the bot will take a lot of time and love to be made into a really fun e
 If you want to join the support server, please click on the image below!
 
 [![Invitation image](images/Economica_Server.png)](https://discord.gg/HxkmbdgcEM)
+
+# 🤚 Application for Contribuotr (New!)
+
+Wanna apply for being an economica contributor? [Apply here!](https://forms.gle/85qj8VZeF26Fzpaw8)
+Contact me here after submitting: sciencedoneright5@gmail.com or Science Done Right#6969 in discord.
