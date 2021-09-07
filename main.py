@@ -28,12 +28,15 @@ async def button(ctx):
 	button = await ctx.send(
 			"Hey there this thing works wow",
 			components = [
-				Button(style = 1,label = 'Click me or die')
+				Button(style = 1, label = 'Click me or die')
 			]
 		)
 
-	interaction = await economica.wait_for('button_click', check = lambda i: i.component.label.startswith("WOW"))
-	await interaction.respond(content = f"{interaction.component[0].label} selected!")
+	def button_click_check(i):
+		return i.component.label.startswith('Click me or die')
+
+	interaction = await economica.wait_for('button_click', check = button_click_check)
+	await interaction.respond(content = f"Clicked")
 
 @economica.command()
 async def invite(ctx):
