@@ -4,6 +4,8 @@ from discord.ext import commands
 from discord_components import DiscordComponents, Button
 from discord_slash import SlashCommand
 
+# , check = lambda i: i.component.label.startswith("Click")
+
 # CONFIGURATION #
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
@@ -23,22 +25,6 @@ async def on_ready():
 	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
 
 @economica.command()
-@commands.has_permissions(administrator = True)
-async def button(ctx):
-	button = await ctx.send(
-			"Hey there this thing works wow",
-			components = [
-				Button(style = 1, label = 'Click me or die')
-			]
-		)
-
-	def button_click_check(i):
-		return i.component.label.startswith('Click me or die')
-
-	interaction = await economica.wait_for('button_click', check = button_click_check)
-	await interaction.respond(content = f"Clicked")
-
-@economica.command()
 async def invite(ctx):
 	embed = discord.Embed(
 		title = 'Invite',
@@ -50,13 +36,18 @@ async def invite(ctx):
 	button = await ctx.send(
 			embed = embed,
 			components = [
-				Button(style = 1, label = 'Info'),
-				Button(style = 5, label = 'Click to invite me!', url = f'{INVITE_URL}')
+				Button(style = 1, label = 'Info', custom_id = 'info'),
+				Button(style = 5, label = 'Click to invite me!', url = f'{INVITE_URL}', custom_id = 'invite')
 			]
 		)
 
-	interaction = await economica.wait_for('button_click', check = lambda i: i.component.label.startswith("Click"))
-	await interaction.respond(content = f"You have clicked {interaction.component[1].label}, therefore succesfully invitng the bot.")
+	interaction = await economica.wait_for('button_click')
+	
+	if interaction.component.custom_id == 'info':
+		await interaction.respond(content = f"To invite the bot to a server, you need to have the `manage_server` permission in the server you're inviting it to. If this isn't working, report it to the support server or check your perms.")
+
+	else:
+		await ctx.send('Unfortunately, some button interaction failed. Sorry for the inconvenience!')
 
 @economica.command()
 async def credits(ctx):
