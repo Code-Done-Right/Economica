@@ -1,3 +1,3 @@
-# All existing Economica Commands
+# 📜 All existing Economica Commands
 
 None, so far.
