@@ -1,4 +1,4 @@
-# About
+# ❓ About
 
 Economica is an **Economy Bot** made by *Science Done Right*. Economica includes the regular banking features like withdrawing and depositing cash. Robbing, and more.
 Economica also includes a LOT of customisation for most features.
@@ -12,7 +12,7 @@ The default prefix is `coin` (with a space at the end.) Users can also use `coin
 In the future per-server prefixes will be added.
 Please check `commands.md` for all commands.
 
-# Release Info
+# 📬 Release Info
 
 We currently have *no deadlines or expectations* for the bot to become popular. But anyways, expect the bot to be released at **around October** (Not considering any factors that can influence the development).
 
@@ -22,7 +22,7 @@ If you want to join the support server, please click on the image below!
 
 [![Invitation image](images/Economica_Server.png)](https://discord.gg/HxkmbdgcEM)
 
-# Application for Contribuotr (New!)
+# 🤚 Application for Contributor (New!)
 
 Wanna apply for being an economica contributor? [Apply here!](https://forms.gle/85qj8VZeF26Fzpaw8)
 Contact me here after submitting: sciencedoneright5@gmail.com or Science Done Right#6969 in discord.
