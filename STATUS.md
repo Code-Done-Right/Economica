@@ -8,6 +8,6 @@ The bot will be python based, again!
 
 - Fixed the interaction message glitch!
 
-# Issues
+# ⛔ Issues
 
 No issues so far.
