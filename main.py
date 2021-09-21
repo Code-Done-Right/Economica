@@ -2,7 +2,6 @@
 import discord
 from discord.ext import commands
 from discord_components import DiscordComponents, Button
-from discord_slash import SlashCommand
 
 # , check = lambda i: i.component.label.startswith("Click")
 
