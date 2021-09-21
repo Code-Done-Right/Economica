@@ -2,13 +2,17 @@
 import discord
 from discord.ext import commands
 from discord_components import DiscordComponents, Button
+import asyncpg
 
-# , check = lambda i: i.component.label.startswith("Click")
+# CONFIGURATION IMPORTS #
+from bot_token import TOKEN
+from pg_password import password
 
-# CONFIGURATION #
+user_conn = asyncpg.connect(f'postgres://postgres:{password}@localhost:5432/Users')
+
+# CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
-from bot_token import TOKEN
 
 # COMMAND COLORS #
 NORMAL = 0x006AFF
@@ -69,6 +73,40 @@ async def kick(ctx, member : discord.Member, * , reason = "No reason mentioned."
 @commands.has_permissions(ban_members = True)
 async def ban(ctx, member : discord.Member, * , reason = "No reason mentioned."):
 	await member.ban(reason = reason)
+
+@economica.command()
+@commands.has_permissions(administrator = True)
+async def warn(ctx):
+	embed = discord.Embed(
+		title = 'Coming soon!',
+		description = 'Unfortunately the warn command is not yet implemented. Please wait until it\'s finished!',
+		color = IN_PROGRESS
+	)
+	
+	await ctx.send(embed = embed)
+
+@economica.command()
+@commands.has_permissions(administrator = True)
+async def jail(ctx):
+	embed = discord.Embed(
+		title = 'Coming soon!',
+		description = 'Unfortunately the jail command is not yet implemented. Please wait until it\'s finished!',
+		color = IN_PROGRESS
+	)
+	
+	await ctx.send(embed = embed)
+
+@economica.command()
+@commands.has_permissions(administrator = True)
+async def mute(ctx):
+	embed = discord.Embed(
+		title = 'Coming soon!',
+		description = 'Unfortunately the mute command is not yet implemented. Please wait until it\'s finished!',
+		color = IN_PROGRESS
+	)
+	
+	await ctx.send(embed = embed)
+
 
 # ECONOMY COMMANDS #
 
