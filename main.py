@@ -4,6 +4,9 @@ from discord.ext import commands
 from discord_components import DiscordComponents, Button
 import asyncpg
 
+# UTILITARIAN IMPORTS #
+from commands_economy.Account import OpenAccount, GetBankData
+
 # CONFIGURATION IMPORTS #
 from bot_token import TOKEN
 from pg_password import password
