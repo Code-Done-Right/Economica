@@ -7,22 +7,19 @@ import asyncpg
 import asyncio
 
 # UTILITARIAN IMPORTS #
-from commands_economy.Account import OpenAccount, GetBankData
+from commands_economy.Account import OpenAccount
 
 # CONFIGURATION IMPORTS #
 from bot_token import TOKEN
 from pg_password import password
 
-async def open_account():
-	user_conn = await asyncpg.connect(f'postgres://postgres:{password}@localhost:5432/users')
-	await user_conn.execute('INSERT INTO users(user_id, username, discriminator, wallet, bank) VALUES($1, $2, $3, $4, $5)', 789496056043012127, 'Science Done Right', 9144, 0, 0)
-	await OpenAccount(user_conn, 'Science Done Right')
-	
+# COMMONLY USED #
+event_loop = asyncio.get_event_loop()
 
-asyncio.get_event_loop().run_until_complete(open_account())
-	
+
 # CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
+economica.db: asyncpg.Pool
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
 
 # COMMAND COLORS #
@@ -31,16 +28,15 @@ SUCCESSFUL = 0x29CC00
 ERROR = 0x961515
 IN_PROGRESS = 0xD6A400
 
+asyncio.get_event_loop()
 # GENERAL COMMANDS #
 @economica.event
 async def on_ready():
 	DiscordComponents(economica)
+	economica.db = await asyncpg.create_pool(f'postgres://postgres{password}@localhost:5432/economicausers')
+
 	print(f'Logged in as {economica.user.name}, no malfunctions so for.')
 	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
-
-@economica.command()
-async def test(ctx):
-	await ctx.send(ctx.author.discriminator)
 
 @economica.command()
 async def invite(ctx):
@@ -124,6 +120,16 @@ async def mute(ctx):
 
 # ECONOMY COMMANDS #
 
+@economica.command(aliases = ['bal'])
+async def balance(ctx):
+	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432')
+	async def helper_balance(context):
+		await OpenAccount(economica.db, context.author.id, context.author.name, context.author.discriminator)
+	
+	event_loop.run_until_complete(helper_balance(ctx))
+	user_info = economica.db.execute('''
+		SELECT wallet, bank FROM economicausers WHERE username = $1, discriminator = $2
+	''', ctx.author.name, ctx.author.discriminator)
 
 # SETUP #
 economica.run(TOKEN)
