@@ -19,7 +19,11 @@ event_loop = asyncio.get_event_loop()
 
 # CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
+
+# I have no idea why VSC says this is not supported for this type of expression,
+# but it works so my suspicion is because of some bug in the extensions, haha
 economica.db: asyncpg.Pool
+
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
 
 # COMMAND COLORS #
