@@ -24,5 +24,5 @@ If you want to join the support server, please click on the image below!
 
 # 🤚 Application for Contributor (New!)
 
-Wanna apply for being an economica contributor? [Apply here!](https://forms.gle/85qj8VZeF26Fzpaw8)
 Contact me here after submitting: sciencedoneright5@gmail.com or Science Done Right#6969 in discord.
+See ya!
