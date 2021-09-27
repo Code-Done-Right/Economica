@@ -15,7 +15,7 @@ from pg_password import password
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
-EconomiCoin = '<:EconomicaCoin:891617795492687872>'
+EconomiCoin = '<:EconomiCoin:891917067626901564>'
 
 # CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -142,7 +142,7 @@ async def balance(ctx):
 			name = 'Bank (In EconomiBank)',
 			value = f'You have {bank} {EconomiCoin} stashed away in EconomiBank.'
 		)
-
+		embed.set_thumbnail()
 		await ctx.send(embed = embed)
 	else:
 		await ctx.send('You are not registered.')
