@@ -15,7 +15,7 @@ from pg_password import password
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
-
+EconomiCoin = '<:EconomicaCoin:891617795492687872>'
 
 # CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -23,7 +23,6 @@ economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
 # I have no idea why VSC says this is not supported for this type of expression,
 # but it works so my suspicion is because of some bug in the extensions, haha
 economica.db: asyncpg.Pool
-
 INVITE_URL = r'https://discord.com/api/oauth2/authorize?client_id=815556341766553600&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.events.stdlib.com%2Fdiscord%2Fauth%2F&scope=bot'
 
 # COMMAND COLORS #
@@ -37,7 +36,6 @@ asyncio.get_event_loop()
 @economica.event
 async def on_ready():
 	DiscordComponents(economica)
-	economica.db = await asyncpg.create_pool(f'postgres://postgres{password}@localhost:5432/economicausers')
 
 	print(f'Logged in as {economica.user.name}, no malfunctions so for.')
 	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
@@ -126,14 +124,28 @@ async def mute(ctx):
 
 @economica.command(aliases = ['bal'])
 async def balance(ctx):
-	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432')
-	async def helper_balance(context):
-		await OpenAccount(economica.db, context.author.id, context.author.name, context.author.discriminator)
+	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	account_info = await OpenAccount(economica.db, ctx.author.id, ctx.author.name, ctx.author.discriminator)
 	
-	event_loop.run_until_complete(helper_balance(ctx))
-	user_info = economica.db.execute('''
-		SELECT wallet, bank FROM economicausers WHERE username = $1, discriminator = $2
-	''', ctx.author.name, ctx.author.discriminator)
+	if account_info == True:
+		user_data = await economica.db.fetchrow('''SELECT wallet, bank FROM economica_bank WHERE user_id = $1''', ctx.author.id)
+		wallet = user_data['wallet']
+		bank = user_data['bank']
+	
+		embed = discord.Embed(
+			title = f'{ctx.author.name}\'s Account',
+			description = f'You have {wallet} {EconomiCoin} in your wallet right now!',
+			color = SUCCESSFUL
+		)
+
+		embed.add_field(
+			name = 'Bank (In EconomiBank)',
+			value = f'You have {bank} {EconomiCoin} stashed away in EconomiBank.'
+		)
+
+		await ctx.send(embed = embed)
+	else:
+		await ctx.send('You are not registered.')
 
 # SETUP #
 economica.run(TOKEN)
