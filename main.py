@@ -18,7 +18,7 @@ event_loop = asyncio.get_event_loop()
 EconomiCoin = '<:EconomiCoin:891917067626901564>'
 
 # CONFIGURATION AND LINKS#
-economica = commands.Bot(command_prefix = ('coin ', 'Coin ', 'coin.', 'Coin.'))
+economica = commands.Bot(command_prefix = ('c ','c.','coin ', 'Coin ', 'coin.', 'Coin.'))
 
 # I have no idea why VSC says this is not supported for this type of expression,
 # but it works so my suspicion is because of some bug in the extensions, haha
@@ -142,7 +142,7 @@ async def balance(ctx):
 			name = 'Bank (In EconomiBank)',
 			value = f'You have {bank} {EconomiCoin} stashed away in EconomiBank.'
 		)
-		embed.set_thumbnail()
+		embed.set_thumbnail(url = 'https://image.freepik.com/free-vector/digital-wallet-abstract-concept-illustration_335657-3896.jpg')
 		await ctx.send(embed = embed)
 	else:
 		await ctx.send('You are not registered.')
