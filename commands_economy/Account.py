@@ -13,13 +13,13 @@ async def OpenAccount(db_connection, user_id, username, discriminator) -> bool:
 
     USER_CONN = db_connection
     
-    user = await USER_CONN.fetchrow('SELECT * FROM users WHERE username = $1, discriminator = $2', username, discriminator) is not None
+    user = await USER_CONN.fetchrow('SELECT * FROM economica_bank WHERE user_id = $1', user_id) is not None
     if user == True:
-        return False
+        return True
     else:
         await USER_CONN.execute('''
-            INSERT INTO economicausers(user_id, username, discriminator, wallet, bank) VALUES($1, $2, $3, $4, $5)
-            ''', user_id, username, discriminator, 0, 0)
+            INSERT INTO economica_bank(user_id, wallet, bank) VALUES($1, $2, $3) ON CONFLICT DO NOTHING
+            ''', user_id, '0', '0')
 
     return True
 
@@ -29,5 +29,3 @@ async def GetBankData(db_connection):
         Right now, I don't know whether to keep this.
     """
     USER_CONN = db_connection
-
-    
