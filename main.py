@@ -12,6 +12,7 @@ from commands_economy.Account import OpenAccount
 # CONFIGURATION IMPORTS #
 from bot_token import TOKEN
 from pg_password import password
+from image_urls import ECONOMY_COMMAND_THUMBNAIL  
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
@@ -31,7 +32,8 @@ SUCCESSFUL = 0x29CC00
 ERROR = 0x961515
 IN_PROGRESS = 0xD6A400
 
-asyncio.get_event_loop()
+event_loop = asyncio.get_event_loop()
+
 # GENERAL COMMANDS #
 @economica.event
 async def on_ready():
@@ -122,15 +124,74 @@ async def mute(ctx):
 
 # ECONOMY COMMANDS #
 
+@economica.command(aliases = ['fc'])
+async def freecoins(ctx):
+	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	account_info = await OpenAccount(economica.db, ctx.author.id)
+	if account_info == True:
+		await economica.db.execute('UPDATE economica_bank SET wallet = wallet + 500, bank = bank + 500')
+	else:
+		pass
+
+@economica.command(aliases = ['wd'])
+async def withdraw(ctx, amount):
+	amount = int(amount)
+	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	account_info = await OpenAccount(economica.db, ctx.author.id)
+
+	if amount == None:
+		await ctx.send('Please specify a valid amount!')
+	if amount < 0:
+		await ctx.send('You cannot withdraw negative amounts of cash. Use the deposit comamnd for that.')
+
+	if account_info:
+		await economica.db.execute(f'UPDATE economica_bank SET wallet = wallet + $1, bank = bank - $2 WHERE user_id = $3', amount, amount, ctx.author.id)
+
+		embed = discord.Embed(
+			title = 'Withdraw',
+			description = f'Withdrawed {amount} from EconomiBank!',
+			color = SUCCESSFUL
+		)
+
+		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
+		await ctx.send(embed = embed)
+	else:
+		await ctx.send('You are not registered.')
+
+@economica.command(aliases = ['dep'])
+async def deposit(ctx, amount):
+	amount = int(amount)
+	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	account_info = await OpenAccount(economica.db, ctx.author.id)
+
+	if amount == None:
+		await ctx.send('Please specify a valid amount!')
+	if amount < 0:
+		await ctx.send('You cannot deposit negative amounts of cash. Use the wthdraw comamnd for that.')
+
+	if account_info:
+		await economica.db.execute(f'UPDATE economica_bank SET wallet = wallet - $1, bank = bank + $2 WHERE user_id = $3', amount, amount, ctx.author.id)
+
+		embed = discord.Embed(
+			title = 'Deposit',
+			description = f'Deposted {amount} to EconomiBank!',
+			color = SUCCESSFUL
+		)
+
+		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
+		await ctx.send(embed = embed)
+	else:
+		await ctx.send('You are not registered.')
+
+
 @economica.command(aliases = ['bal'])
 async def balance(ctx):
 	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
-	account_info = await OpenAccount(economica.db, ctx.author.id, ctx.author.name, ctx.author.discriminator)
+	account_info = await OpenAccount(economica.db, ctx.author.id)
 	
 	if account_info == True:
 		user_data = await economica.db.fetchrow('''SELECT wallet, bank FROM economica_bank WHERE user_id = $1''', ctx.author.id)
-		wallet = user_data['wallet']
-		bank = user_data['bank']
+		wallet, bank = user_data['wallet'], user_data['bank']
 	
 		embed = discord.Embed(
 			title = f'{ctx.author.name}\'s Account',
@@ -142,10 +203,10 @@ async def balance(ctx):
 			name = 'Bank (In EconomiBank)',
 			value = f'You have {bank} {EconomiCoin} stashed away in EconomiBank.'
 		)
-		embed.set_thumbnail(url = 'https://image.freepik.com/free-vector/digital-wallet-abstract-concept-illustration_335657-3896.jpg')
+		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
 		await ctx.send(embed = embed)
 	else:
-		await ctx.send('You are not registered.')
+		await ctx.send('You are not registered. To register, simply run the command again.')
 
 # SETUP #
 economica.run(TOKEN)
