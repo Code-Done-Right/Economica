@@ -60,7 +60,7 @@ async def on_command_error(ctx, error):
 		General event for all command errors. This mainly handles cooldowns.
 	"""
 	if isinstance(error, commands.CommandOnCooldown):
-		await ctx.send(f'**{ctx.author.name}**, you are still in cooldown, please try again in {error.retry_after:.2f} seconds. {time_converter(39833)}')
+		await ctx.send(f'**{ctx.author.name}**, you are still in cooldown, please try again in {error.retry_after:.2f} seconds.')
 
 @economica.command()
 async def invite(ctx):
