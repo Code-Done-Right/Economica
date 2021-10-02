@@ -1,22 +1,26 @@
-# IMPORTANT IMPORTS #
+# IMPORTS #
 from asyncio.events import get_event_loop
+import asyncio
+import asyncpg
+
 import discord
 from discord.ext import commands
 from discord_components import DiscordComponents, Button
-import asyncpg
-import asyncio
 
-# UTILITARIAN IMPORTS #
+import math
+
 from commands_economy.Account import OpenAccount
 
-# CONFIGURATION IMPORTS #
-from bot_token import TOKEN
-from pg_password import password
-from image_urls import ECONOMY_COMMAND_THUMBNAIL  
+from login_info.bot_token import TOKEN
+from login_info.pg_password import PASSWORD
+
+# There are so many modules lmaoooo
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
 EconomiCoin = '<:EconomiCoin:891917067626901564>'
+ECONOMICA_ECONOMY_DATABASE = f'postgres://postgres:{PASSWORD}@localhost:5432/economica_users'
+ECONOMY_COMMAND_THUMBNAIL = 'https://image.freepik.com/free-vector/digital-wallet-abstract-concept-illustration_335657-3896.jpg'
 
 # CONFIGURATION AND LINKS#
 economica = commands.Bot(command_prefix = ('c ','c.','coin ', 'Coin ', 'coin.', 'Coin.'))
@@ -34,13 +38,29 @@ IN_PROGRESS = 0xD6A400
 
 event_loop = asyncio.get_event_loop()
 
+# HELPER FUNCTIONS #
+# If the number of helper functions pile up in here, we'll make a new folder for it.
+
+# one is coming soon
+
 # GENERAL COMMANDS #
 @economica.event
 async def on_ready():
+	"""
+		Logs economica and DiscordComponents in.
+	"""
 	DiscordComponents(economica)
 
 	print(f'Logged in as {economica.user.name}, no malfunctions so for.')
 	print('WARNING: There is a possibility that some functions have errors. Please double check each vulnerable command before confirming the bot is fine.')
+
+@economica.event
+async def on_command_error(ctx, error):
+	"""
+		General event for all command errors. This mainly handles cooldowns.
+	"""
+	if isinstance(error, commands.CommandOnCooldown):
+		await ctx.send(f'**{ctx.author.name}**, you are still in cooldown, please try again in {error.retry_after:.2f} seconds. {time_converter(39833)}')
 
 @economica.command()
 async def invite(ctx):
@@ -125,18 +145,23 @@ async def mute(ctx):
 # ECONOMY COMMANDS #
 
 @economica.command(aliases = ['fc'])
-async def freecoins(ctx):
-	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+@commands.cooldown(1, 86400, commands.BucketType.user)
+async def daily(ctx):
+	economica.db = await asyncpg.create_pool(ECONOMICA_ECONOMY_DATABASE)
 	account_info = await OpenAccount(economica.db, ctx.author.id)
 	if account_info == True:
 		await economica.db.execute('UPDATE economica_bank SET wallet = wallet + 500, bank = bank + 500')
 	else:
 		pass
 
+@economica.command()
+async def fish(ctx):
+	pass
+
 @economica.command(aliases = ['wd'])
-async def withdraw(ctx, amount):
+async def withdraw(ctx, amount : int):
 	amount = int(amount)
-	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	economica.db = await asyncpg.create_pool(ECONOMICA_ECONOMY_DATABASE)
 	account_info = await OpenAccount(economica.db, ctx.author.id)
 
 	if amount == None:
@@ -156,12 +181,12 @@ async def withdraw(ctx, amount):
 		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
 		await ctx.send(embed = embed)
 	else:
-		await ctx.send('You are not registered.')
+		await ctx.send('You are not registered. Run the balance command to register.')
 
 @economica.command(aliases = ['dep'])
-async def deposit(ctx, amount):
+async def deposit(ctx, amount : int):
 	amount = int(amount)
-	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	economica.db = await asyncpg.create_pool(ECONOMICA_ECONOMY_DATABASE)
 	account_info = await OpenAccount(economica.db, ctx.author.id)
 
 	if amount == None:
@@ -181,12 +206,25 @@ async def deposit(ctx, amount):
 		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
 		await ctx.send(embed = embed)
 	else:
-		await ctx.send('You are not registered.')
+		await ctx.send('You are not registered. Run the balance command to register.')
 
+@economica.command()
+async def give(ctx, amount : int, user : discord.Member):
+	economica.db = await asyncpg.create_pool(ECONOMICA_ECONOMY_DATABASE)
+	account_info = await OpenAccount(economica.db, ctx.author.id)
+
+	if account_info:
+		user_data = await economica.db.fetchrow('SELECT wallet, bank FROM economica_bank WHERE user_id = $1', ctx.author.id)
+		wallet, bank = user_data['wallet'], user_data['bank']
+		other_user_data = await economica.db.fetchrow('SELECT wallet, bank FROM economica_bank WHERE user_id = $1', user.id)
 
 @economica.command(aliases = ['bal'])
 async def balance(ctx):
-	economica.db = await asyncpg.create_pool(f'postgres://postgres:{password}@localhost:5432/economica_users')
+	"""
+		The balance command allows user to see the bank balance in their account.
+		Returns embed with wallet and bank amounts.
+	"""
+	economica.db = await asyncpg.create_pool(ECONOMICA_ECONOMY_DATABASE)
 	account_info = await OpenAccount(economica.db, ctx.author.id)
 	
 	if account_info == True:
@@ -206,7 +244,7 @@ async def balance(ctx):
 		embed.set_thumbnail(url = ECONOMY_COMMAND_THUMBNAIL)
 		await ctx.send(embed = embed)
 	else:
-		await ctx.send('You are not registered. To register, simply run the command again.')
+		await ctx.send('You are not registered. To register, simply run this again.')
 
 # SETUP #
 economica.run(TOKEN)
