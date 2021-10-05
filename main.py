@@ -1,20 +1,16 @@
 # IMPORTS #
-from asyncio.events import get_event_loop
 import asyncio
-import asyncpg
+import math
+from asyncio.events import get_event_loop
 
+import asyncpg
 import discord
 from discord.ext import commands
-from discord_components import DiscordComponents, Button
-
-import math
+from discord_components import Button, DiscordComponents
 
 from commands_economy.Account import OpenAccount
-
 from login_info.bot_token import TOKEN
 from login_info.pg_password import PASSWORD
-
-# There are so many modules lmaoooo
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
