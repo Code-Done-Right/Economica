@@ -2,6 +2,7 @@
 import asyncio
 import math
 from asyncio.events import get_event_loop
+import random
 
 import asyncpg
 import discord
@@ -14,6 +15,16 @@ from login_info.pg_password import PASSWORD
 
 # COMMONLY USED #
 event_loop = asyncio.get_event_loop()
+
+# Trying to figure out a way to have a probability distribution.
+# Why? If diamonds and trash have the same probability of being found, it's
+# Worthless to use this command. granted I could keep like 50% of the terms as
+# Trash and the rest with other stuff but that's stupid and time consuming.
+# Will figure out a solution I guess.
+
+POSSIBLE_FISHING_LOOT = ['Diamonds', 'Emeralds', '']
+POSSIBLE_ADVENTURE_LOOT = ['Nothing Interesting.']
+
 EconomiCoin = '<:EconomiCoin:891917067626901564>'
 ECONOMICA_ECONOMY_DATABASE = f'postgres://postgres:{PASSWORD}@localhost:5432/economica_users'
 ECONOMY_COMMAND_THUMBNAIL = 'https://image.freepik.com/free-vector/digital-wallet-abstract-concept-illustration_335657-3896.jpg'
