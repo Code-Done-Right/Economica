@@ -24,5 +24,5 @@ If you want to join the support server, please click on the image below!
 
 # 🤚 Application for Contributor (New!)
 
-Contact me here after submitting: sciencedoneright5@gmail.com or Science Done Right#6969 in discord.
+Contact me through discord! (Link in account [readme](https://github.com/Code-Done-Right))
 See ya!
