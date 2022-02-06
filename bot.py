@@ -11,10 +11,11 @@ bot = lightbulb.BotApp(
     default_enabled_guilds = (872490089731723365)
 )
 db.initialise()
+bot.load_extensions("extensions.moderation")
 
 # Commands
 @bot.command
-@lightbulb.command('hello world', 'Says "Hello World!"')
+@lightbulb.command('hello', 'Says "Hello World!"')
 @lightbulb.implements(lightbulb.PrefixCommand, lightbulb.SlashCommand)
 async def hello(ctx):
     await ctx.respond('Hello World!')
