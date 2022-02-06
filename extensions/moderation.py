@@ -5,12 +5,25 @@ import lightbulb
 moderation_plugin = lightbulb.Plugin("Moderation")
 
 @moderation_plugin.command
+@lightbulb.option('reason', 'Reason for muting the user.', type = str)
+@lightbulb.option('time', 'Time duration of the mute.')
+@lightbulb.option('user', 'User to be muted.', type = hikari.Member)
+@lightbulb.command('mute', 'Mutess a user for a specified time interval.')
+@lightbulb.implements(lightbulb.SlashCommand, lightbulb.PrefixCommand)
+async def mute(ctx):
+    await ctx.respond(f'{ctx.options.user} has been muted for {ctx.options.time}.')
+    await ctx.respond(f'Reason: {ctx.options.reason}.')
+
+
+@moderation_plugin.command
 @lightbulb.option('reason', 'Reason for kicking the user.', type = str)
 @lightbulb.option('user', 'User to be kicked.', type = hikari.Member)
 @lightbulb.command('kick', 'Kicks a user from the guild.')
 @lightbulb.implements(lightbulb.SlashCommand, lightbulb.PrefixCommand)
 async def kick(ctx):
     await ctx.options.user.kick(reason = ctx.options.reason)
+    await ctx.respond(f'{ctx.options.user} has been kicked from the server.')
+    await ctx.respond(f'Reason: {ctx.options.reason}')
 
 @moderation_plugin.command
 @lightbulb.option('reason', 'Reason for banning the user.', type = str)

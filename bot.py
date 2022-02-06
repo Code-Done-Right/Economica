@@ -3,7 +3,6 @@ import hikari
 import lightbulb
 from secrets import TOKEN
 from database import Database as db
-import pytest
 
 # Setups for bot
 bot = lightbulb.BotApp(
@@ -11,8 +10,18 @@ bot = lightbulb.BotApp(
     prefix = ('coin ', 'coin.'),
     default_enabled_guilds = (872490089731723365)
 )
+
 db.initialise()
 bot.load_extensions("extensions.moderation")
+
+# Events
+@bot.listen(hikari.GuildJoinEvent)
+async def create_roles(event):
+    await event.app.rest.create_role(
+        guild = event.guild_id,
+        name = 'Muted',
+        color = 0x363636
+        )
 
 # Commands
 @bot.command
