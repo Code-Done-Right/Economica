@@ -3,6 +3,7 @@ import hikari
 import lightbulb
 from secrets import TOKEN
 from database import Database as db
+import pytest
 
 # Setups for bot
 bot = lightbulb.BotApp(
