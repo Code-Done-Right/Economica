@@ -3,6 +3,7 @@ import hikari
 import lightbulb
 from secrets import TOKEN
 from database import Database as db
+from extensions.economy import EconomyHelperMethods as helper_methods
 
 # Setups for bot
 bot = lightbulb.BotApp(
@@ -13,22 +14,22 @@ bot = lightbulb.BotApp(
 
 db.initialise()
 bot.load_extensions("extensions.moderation")
+bot.load_extensions("extensions.fun")
 
 # Events
 @bot.listen(hikari.GuildJoinEvent)
-async def create_roles(event):
-    await event.app.rest.create_role(
-        guild = event.guild_id,
-        name = 'Muted',
-        color = 0x363636
-        )
+async def on_server_join(event):
+    role = event.app.cache.get_roles_view_for_guild(event.guild)
+    roles = role.values()
 
-# Commands
-@bot.command
-@lightbulb.command('hello', 'Says "Hello World!"')
-@lightbulb.implements(lightbulb.PrefixCommand, lightbulb.SlashCommand)
-async def hello(ctx):
-    await ctx.respond('Hello World!')
+    # Create roles if not exists
+    if 'Muted' not in roles:
+        await event.app.rest.create_role(
+            guild = event.guild_id,
+            name = 'Muted',
+            color = 0x363636,
+            send_messages = False
+        )
 
 # Running the bot
 bot.run()
