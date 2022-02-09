@@ -1,8 +1,21 @@
 # Imports
 import hikari
 import lightbulb
+import time
+import sys
+import os
 
 moderation_plugin = lightbulb.Plugin("Moderation")
+
+# Time converter
+def time_converter(time):
+    """
+    helper method `time_converter`
+
+    Converts the given time in seconds. Ex:
+    30m -> 30 minutes -> 1800s
+    7d -> 7 days -> 604,800s
+    """
 
 @moderation_plugin.command
 @lightbulb.option('reason', 'Reason for muting the user.', type = str)
