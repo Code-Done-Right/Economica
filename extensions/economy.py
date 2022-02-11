@@ -1,8 +1,9 @@
 # Imports
+import os
+import sys
+
 import hikari
 import lightbulb
-import sys
-import os
 
 # Adds a path for importing database which requires a relative import
 # Thanks to https://stackoverflow.com/questions/7505988/importing-from-a-relative-path-in-python
@@ -12,8 +13,10 @@ import os
 
 economy_plugin = lightbulb.Plugin("Economy")
 
+
 # Helper methods
 class EconomyHelperMethods:
+
     async def __init__(self, db):
         self.db = db
         db.initialise()
@@ -33,10 +36,10 @@ class EconomyHelperMethods:
     async def delete_account():
         pass
 
+
 # Commands
 @economy_plugin.command
-@lightbulb.command(aliases = ['bal'])
+@lightbulb.command(aliases=["bal"])
 @lightbulb.implements(lightbulb.PrefixCommand, lightbulb.SlashCommand)
 async def balance(ctx):
     pass
-
