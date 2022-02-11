@@ -1,9 +1,10 @@
 import sqlite3
 
-class Database ():
+
+class Database:
     """
     class `Database`
-    
+
     Carries methods related to the SQL bot database.
     """
 
@@ -19,7 +20,7 @@ class Database ():
         """
 
         # Connection and cursor
-        CONN = sqlite3.connect('bot.db')
+        CONN = sqlite3.connect("bot.db")
         cursor = CONN.cursor()
 
         ECONOMY_TABLE = """CREATE TABLE IF NOT EXISTS Economy (
@@ -34,9 +35,10 @@ class Database ():
                 user_name text,
                 duration integer
             ); """
-        
+
         cursor.execute(ECONOMY_TABLE)
         cursor.execute(MUTED_PEOPLE_TABLE)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     Database.initialise()
