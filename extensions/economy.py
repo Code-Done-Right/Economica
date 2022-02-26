@@ -35,7 +35,7 @@ class EconomyHelperMethods:
 
 # Commands
 @economy_plugin.command
-@lightbulb.command(aliases = ['bal'])
+@lightbulb.command('balance', 'Returns the balance of the user',aliases = ['bal'])
 @lightbulb.implements(lightbulb.PrefixCommand, lightbulb.SlashCommand)
 async def balance(ctx):
     pass
